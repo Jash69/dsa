@@ -1,0 +1,35 @@
+1 
+// insertion sort 
+// if it is the first element then it is already sorted and return 1 
+// pick up the next element 
+// compare it with all the element in sorted subarray  list 
+// shift all the elemts in the sorted subarray list that is greater than the value to be sorted 
+// insert the value 
+// repeat until list is sorted 
+
+
+// code
+#include <stdio.h>
+
+int main() {
+    int a[] = {5, 4, 10, 1, 6, 2};
+    int i, j, temp;
+
+    for (i = 1; i < 6; i++) {
+        temp = a[i];
+        j = i - 1;
+        while (j >= 0 && a[j] > temp) {
+            a[j + 1] = a[j];
+            j--;
+        }
+        a[j + 1] = temp;
+    }
+
+    printf("Sorted array: ");
+    for (i = 0; i < 6; i++) {
+        printf("%d ", a[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
