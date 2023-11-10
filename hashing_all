@@ -1,0 +1,115 @@
+hashing
+#include<stdio.h>
+
+void main()
+{
+    int s;
+    int ch,j,index;
+    printf("enter the size og hash table");
+    scanf("%d",&s);
+    int h[s];
+    int k;
+    
+    for(k=0;k<s;k++)
+    {
+        h[k]=0;
+    }
+   
+    
+      do
+   {
+        printf("enter the choice\n");
+    printf("1.insert 2.search 3.display \n");
+    scanf("%d",&ch);
+    
+    switch (ch)
+    {
+        case 1:
+        {
+            int d,v;
+            printf("enter the data");
+            scanf("%d",&d);
+            int i=0;
+            for(j=1;j<=s;j++)
+            {
+                v=5-(d%5);
+                index = (d+(v*i))%s;
+              
+                if(index>s-1)
+                {
+                    index=0;
+                }
+                else if(h[index]!=0)
+                {
+                    i++;
+                }
+                else if(h[index]==0)
+                {
+                    h[index]=d;
+                    break;
+                }
+                
+            }
+            
+            break;
+        }
+        
+        case 2:
+        {
+            int n,c=0;
+            printf("eneter the item");
+            scanf("%d",&n);
+            
+            for(k=0;k<s;k++)
+            {
+                if(h[k]==n)
+                {
+                    printf("element found at index %d",k);
+                    c=1;
+                    break;
+                }
+                
+            }
+            if(c==0)
+            printf("element not found");
+            
+            break;
+        }
+        
+        case 3:
+        {
+            for(k=0;k<s;k++)
+            {
+                printf("\n%d -> %d",k,h[k]);
+            }
+        }
+        
+    
+    }
+   }while(ch!=0);
+}
+
+
+
+
+
+Linear Probing:
+
+Linear probing is one of the simplest open addressing techniques. When a collision occurs, it linearly searches for the next available slot in the array until an empty slot is found.
+
+Formula: h'(x) = (h(x) + i) % TABLE_SIZE
+
+Quadratic Probing:
+
+In quadratic probing, instead of linearly searching for the next slot, we use a quadratic function to find the next slot to check. This helps to spread out the probing.
+
+Formula: h'(x) = (h(x) + i^2) % TABLE_SIZE
+
+Double Hashing:
+
+Double hashing employs a secondary hash function to calculate the step size between slots when probing. This technique ensures a wider exploration of available slots.
+
+Formula: h'(x) = (h1(x) + i* h2(x)) % TABLE_SIZE
+ h1(x) = x % TABLE_SIZE 
+h2(x) = R-(x % R)
+
