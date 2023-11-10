@@ -1,0 +1,66 @@
+#include <stdio.h>
+
+void merge(int a[], int small, int mid, int large) {
+    int x, y, temp[100], z = 0;
+    x = small;
+    y = mid + 1;
+
+    while (x <= mid && y <= large) {
+        if (a[x] < a[y]) {
+            temp[z] = a[x];
+            z++;
+            x++;
+        } else {
+            temp[z] = a[y];
+            z++;
+            y++;
+        }
+    }
+
+    while (x <= mid) {
+        temp[z++] = a[x++];
+    }
+
+    while (y <= large) {
+        temp[z++] = a[y++];
+    }
+
+    // Copy the merged elements back to the original array
+    for (x = small; x <= large; x++) {
+        a[x] = temp[x - small];
+    }
+}
+
+void mergeSort(int a[], int small, int large) {
+    if (small < large) {
+        int mid = (small + large) / 2;
+
+        // Sort first and second halves
+        mergeSort(a, small, mid);
+        mergeSort(a, mid + 1, large);
+
+        // Merge the sorted halves
+        merge(a, small, mid, large);
+    }
+}
+
+void printArray(int a[], int size) {
+    for (int i = 0; i < size; i++)
+        printf("%d ", a[i]);
+    printf("\n");
+}
+
+int main() {
+    int arr[] = {12, 11, 13, 5, 6, 7};
+    int arr_size = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Given array is \n");
+    printArray(arr, arr_size);
+
+    mergeSort(arr, 0, arr_size - 1);
+
+    printf("\nSorted array is \n");
+    printArray(arr, arr_size);
+
+    return 0;
+}
