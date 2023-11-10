@@ -1,0 +1,50 @@
+# include <stdio.h>
+int quick(int a[] , int lwb , int upb){
+    int i , j , pivot , temp ;
+    i = lwb+1;
+    j=upb;
+    pivot = a[lwb];
+    while (i<=j){
+        while(a[i]<=pivot)
+        i++;
+        while(a[j]>pivot)
+        j--;
+        if(i<j){
+            temp = a[i];
+            a[i]=a[j];
+            a[j] = temp;
+            
+        }
+    }
+    a[lwb]=a[j];
+    a[j] = pivot;
+    return j;
+}
+
+
+void sort(int a[] , int lwb , int upb){
+    int z;
+    if(lwb<upb){
+        z = quick(a , lwb , upb);
+        sort(a, lwb, z - 1);
+        sort(a, z + 1, upb);
+    }
+}
+
+void printArray(int a[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d ", a[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int arr[] = {12, 11, 13, 5, 6, 7};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    printf("Original array: ");
+    printArray(arr, n);
+    sort(arr, 0, n - 1);
+    printf("Sorted array: ");
+    printArray(arr, n);
+    return 0;
+}
