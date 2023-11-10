@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+struct Queue {
+    struct Node *front;
+    struct Node *rear;
+};
+
+void initializeQueue(struct Queue *queue) {
+    queue->front = NULL;
+    queue->rear = NULL;
+}
+
+int isEmptyQueue(struct Queue *queue) {
+    return queue->front == NULL;
+}
+
+void enqueue(struct Queue *queue, int value) {
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed.\n");
+        return;
+    }
+    newNode->data = value;
+    newNode->next = NULL;
+    if (isEmptyQueue(queue)) {
+        queue->front = newNode;
+        queue->rear = newNode;
+    } else {
+        queue->rear->next = newNode;
+        queue->rear = newNode;
+    }
+    printf("Enqueued %d into the queue.\n", value);
+}
+
+int dequeue(struct Queue *queue) {
+    if (isEmptyQueue(queue)) {
+        printf("Queue Underflow: Cannot dequeue from an empty queue.\n");
+        return -1; // Indicates an error or empty queue
+    }
+    struct Node *temp = queue->front;
+    int dequeuedValue = temp->data;
+    queue->front = temp->next;
+    if (queue->front == NULL) {
+        queue->rear = NULL; // Reset rear if the last element is dequeued
+    }
+    free(temp);
+    printf("Dequeued %d from the queue.\n", dequeuedValue);
+    return dequeuedValue;
+}
+
+int main() {
+    struct Queue myQueue;
+    initializeQueue(&myQueue);
+
+    enqueue(&myQueue, 10);
+    enqueue(&myQueue, 20);
+    enqueue(&myQueue, 30);
+
+    dequeue(&myQueue);
+    dequeue(&myQueue);
+    dequeue(&myQueue);
+
+    return 0;
+}
