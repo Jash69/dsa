@@ -1,0 +1,239 @@
+dll
+struct node {
+    int data;
+    struct node *prev;
+    struct node *next;
+};
+
+struct node *head =NULL , *tail =NULL;
+
+void create(int x);
+void insertatbegin(int x);
+void insertatend(int x);
+void insertatrandom(int x, int pos);
+void delteatbegin();
+void deleteatend();
+void deleteatrandom(int pos);
+void display();
+
+
+void main(){
+    int ch , pos , val;
+    while(1){
+    printf("enter your choice");
+    printf("1.create() 2.insertatbegin() 3.insertatend() 4.insertatrandom() 5.deleteatbegin() 6.deleteatend() 7.deleteatrandom() 8.display() 9.exit()\n");
+    scanf("%d", &ch);
+    switch(ch){
+        
+        case 1:
+        printf("enter a value: ");
+        scanf("%d", &val);
+        create(val);
+        break;
+
+        case 2:
+        printf("enter a value: ");
+        scanf("%d", &val);
+        insertatbegin(val);
+        break;
+
+        case 3:
+        printf("enter a value: ");
+        scanf("%d", &val);
+        insertatend(val);
+        break;
+
+        case 4:
+        printf("enter a value: ");
+        scanf("%d", &val);
+        printf("enter position: ");
+        scanf("%d", &pos);
+        insertatrandom(val, pos);
+        break;
+
+        case 5:
+        delteatbegin();
+        break;
+
+        case 6:
+        deleteatend();
+        break;
+
+
+        case 7:
+        printf("delete at a position: ");
+        scanf("%d", &pos);
+        deleteatrandom(pos);
+        break;
+
+        case 8:
+        display();
+        break;
+
+        case 9:
+        exit(0);
+        break;
+
+        default:
+        printf("enter a valid choice\n");
+        }
+        
+    }
+    
+}
+
+void create(int x){
+    struct node *nn ;
+    nn = (struct node *)malloc(sizeof(struct node));
+    nn->data = x;
+    nn->next = NULL;
+    nn->prev = NULL;
+    head = nn;
+    tail = nn;
+}
+
+
+void insertatbegin(int x){
+    struct node *nn ;
+    nn = (struct node *)malloc(sizeof(struct node));
+    nn->data = x;
+    nn->next = NULL;
+    nn->prev = NULL;
+    if(head ==NULL){
+        create(x);
+    }
+    else{
+        nn->next = head;
+        head->prev = nn;
+        head = nn;
+    }
+}
+
+
+void insertatend(int x){
+    struct node *nn ;
+    nn = (struct node *)malloc(sizeof(struct node));
+    nn->data = x;
+    nn->next = NULL;
+    nn->prev = NULL;
+    if(head ==NULL){
+        create(x);
+    }
+    else{
+        tail->next = nn;
+        nn->prev = tail;
+        tail = nn;
+    }
+}
+
+
+void insertatrandom(int x ,int pos){
+    struct node *nn ,*temp = head ;
+    nn = (struct node *)malloc(sizeof(struct node));
+    nn->data = x;
+    nn->next = NULL;
+    nn->prev = NULL;
+    if(head ==NULL){
+        create(x);
+    }
+    else if(pos ==1){
+        insertatbegin(x);
+    }
+    else{
+        for(int i=1;i<pos-1;i++){
+            temp = temp->next;
+        }
+        if(temp->next != NULL){
+        nn->next = tail->next;
+        temp->next->prev = nn;
+        nn->prev=temp;
+        }
+        else{
+            insertatend(x);
+        }
+        
+    }
+    
+}
+
+
+
+
+void delteatbegin(){
+    struct node*temp = head;
+    if(head == NULL){
+        printf("list is empty");
+    }
+    else if(head == tail){
+        printf("%d deleted",temp->data);
+        head = tail = NULL;
+        free(temp);
+    }
+    else{
+        head = head->next;
+        head->prev = NULL;
+        printf("%d deleted",temp->data);
+        free(temp);
+    }
+}
+
+
+
+
+void deleteatend(){
+    struct node*temp = head;
+    if(head == NULL){
+        printf("list is empty");
+    }
+    else if(head == tail){
+        printf("%d deleted",temp->data);
+        head = tail =NULL;
+        free(temp);
+    }
+    else{
+        tail = tail->prev;
+        tail->next = NULL;
+    }
+}
+
+
+
+void deleteatrandom( int pos){
+    struct node*temp = head;
+    if(head == NULL){
+        printf("list is empty");
+    }
+    else if(head == tail){
+        printf("%d deleted",temp->data);
+        head = tail =NULL;
+        free(temp);
+    }
+    else if (pos ==1){
+        delteatbegin();
+    }
+    else{
+        for(int i =1;i<pos;i++){
+            temp=temp->next;
+            if(temp->next!=NULL){
+                temp->next->prev=temp->prev;
+                temp->prev->next=temp->next;
+                printf(" %d deleted",temp->data);
+                free(temp);
+                
+            }
+            else{
+                deleteatend();
+            }
+        }
+    }
+    
+}
+
+void display() {
+    struct node *temp = head;
+    while (temp != NULL) {
+        printf("%d <-> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
